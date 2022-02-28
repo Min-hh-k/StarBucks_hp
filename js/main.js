@@ -42,3 +42,13 @@ fadeEls.forEach(function (fadeEl, index) {
     opacity: 1,
   })
 });
+
+
+// 슬라이드 요소 SWIPER
+//new Swiper(선택자, 옵션{})
+
+new Swiper('.notice-line .swiper', {
+  direction: 'vertical', // 수직 슬라이드
+  autoplay: true, // 자동 재생 여부
+  loop: true // 반복 재생 여부
+})
