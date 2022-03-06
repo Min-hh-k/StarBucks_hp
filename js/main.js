@@ -16,6 +16,7 @@ searchInputEl.addEventListener('blur', function() {
 });
 
 const badgeEl = document.querySelector('header .badges');
+const toTopEl = document.querySelector('#to-top');
 
 window.addEventListener('scroll', _.throttle( function() { // _.throttle(함수, 시간 == ms) 
   if (scrollY > 500) { //배지 숨기기 //badgeEl.style.display = 'none';
@@ -23,16 +24,30 @@ window.addEventListener('scroll', _.throttle( function() { // _.throttle(함수,
     gsap.to(badgeEl, 0.6, {
       opacity: 0,
       display: 'none',
-    })
+    });
+    // 상단 올라가는 버튼 보이기
+    gsap.to(toTopEl, 0.5, {
+      x: 0,
+    });
+
   } else { // 배지 보이기 //badgeEl.style.display = 'block';
     gsap.to(badgeEl, 0.6, {
       opacity: 1,
       display: 'block',
-    })
+    });
+    // 상단 올라가는 버튼 숨기기
+    gsap.to(toTopEl, 0.5, {
+      x: 100,
+    });
   }
 }, 300));
 
 
+toTopEl.addEventListener('click',function () {
+  gsap.to(window, 0.7, {
+    scrollTo: 0, //창의 요소를 화면의 위치를 0px 위치 지점으로 0.7초 동안
+  });
+});
 
 const fadeEls = document.querySelectorAll('.visual .fade-in');
 fadeEls.forEach(function (fadeEl, index) {
@@ -72,6 +87,20 @@ new Swiper('.promotion .swiper-container',{
   }
 });
 
+//footer swiper
+new Swiper('.awards .swiper', {
+  // direction: 'horizontal',  //기본값
+  autoplay: true,
+  loop: true,
+  spaceBetween: 30,
+  slidesPerView: 5,
+  navigation: { // 왼 오 버튼
+    prevEl: '.awards .swiper-prev',
+    nextEl: '.awards .swiper-next',
+  }
+});
+
+
 const promotionEl = document.querySelector('.promotion');
 const promotionToggleBtn = document.querySelector('.toggle-promotion');
 let isHidePromotion = false;
@@ -106,13 +135,17 @@ floatingObject('.floating1',1 ,15);
 floatingObject('.floating2',0.5 ,15);
 floatingObject('.floating3',1.5 ,20);
 
-const spyEls = document.querySelectorAll('section.scroll-spy');
+const spyEls = document.querySelectorAll('section.scroll-spy'); // 적용할 섹션에 scroll-spy 입력
 spyEls.forEach(function (spyEl) {
   new ScrollMagic
     .Scene({
       triggerElement: spyEl, // 보여짐 여부를 감시할 요소를 지정
       triggerHook: 0.8, // 상단 0 ~ 하단 1 사이부분에서의 0.8위치에 훅 걸리면 setClassToggle() 실행
     })
-    .setClassToggle(spyEl, 'show')
+    .setClassToggle(spyEl, 'show') //show 클래스를 넣었다뺐다하는 토글
     .addTo(new ScrollMagic.Controller())
 })
+
+//footer 부분 년도
+const thisYear = document.querySelector('.this-year');
+thisYear.textContent = new Date().getFullYear(); // 현재 2022 나옴
